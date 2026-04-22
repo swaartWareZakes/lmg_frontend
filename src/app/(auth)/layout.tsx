@@ -1,6 +1,7 @@
 // --- ./src/app/(auth)/layout.tsx ---
 import ThemeToggle from "@/components/layout/ThemeToggle";
-import { Car } from "lucide-react";
+import { Car, BookOpen } from "lucide-react";
+import Link from "next/link";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -16,7 +17,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
              LMG-Fleet
           </div>
           <h1 className="text-4xl font-bold leading-tight mt-24 max-w-md">
-            The complete online tool for government fleet technical data and repair estimations.
+            The complete online tool for fleet technical data and repair estimations.
           </h1>
         </div>
         <div className="z-10 text-sm text-zinc-400">
@@ -26,9 +27,19 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 
       {/* Right side - Forms */}
       <div className="flex-1 flex flex-col justify-center items-center p-8 relative">
-        <div className="absolute top-6 right-6">
+        
+        {/* Top Right Controls: Manual Link & Theme Toggle */}
+        <div className="absolute top-6 right-6 flex items-center gap-4">
+          <Link 
+            href="/manual" 
+            className="flex items-center gap-2 text-sm font-medium text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors px-3 py-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800"
+          >
+            <BookOpen size={16} />
+            User Manual
+          </Link>
           <ThemeToggle />
         </div>
+
         <div className="w-full max-w-md">
           {children}
         </div>
