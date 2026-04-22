@@ -16,7 +16,7 @@ export default function ManualPage() {
             <div className="w-8 h-8 rounded-lg bg-brand-primary flex items-center justify-center text-white">
               <Car size={18} />
             </div>
-            G-FLEET
+            LMG-FLEET
           </div>
           <nav className="flex gap-4">
             <Link href="/login" className="text-sm font-medium text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors flex items-center gap-2">
@@ -31,10 +31,10 @@ export default function ManualPage() {
         {/* HERO SECTION */}
         <div className="mb-16">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
-            G-Fleet User Manual
+            LMG-Fleet User Manual
           </h1>
           <p className="text-lg text-zinc-500 dark:text-zinc-400 leading-relaxed">
-            Welcome to the comprehensive guide for the G-Fleet AI-powered vehicle management and repair estimation platform. Learn how to manage assets, run AI diagnostics, and streamline finance approvals.
+            Welcome to the comprehensive guide for the LMG-Fleet AI-powered vehicle management and repair estimation platform. Learn how to manage assets, run AI diagnostics, and streamline finance approvals.
           </p>
         </div>
 
@@ -44,7 +44,7 @@ export default function ManualPage() {
             <Users className="text-brand-primary" /> Role-Based Access Control (RBAC)
           </h2>
           <p className="mb-4 text-zinc-600 dark:text-zinc-300">
-            G-Fleet isolates data and UI experiences based on your assigned organizational role.
+            LMG-Fleet isolates data and UI experiences based on your assigned organizational role.
           </p>
           <div className="overflow-x-auto rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-card-dark shadow-sm">
             <table className="w-full text-left text-sm">
@@ -168,7 +168,7 @@ export default function ManualPage() {
           </h2>
           <div className="bg-emerald-50 dark:bg-emerald-900/10 border border-emerald-200 dark:border-emerald-800 p-6 rounded-xl text-emerald-900 dark:text-emerald-100">
             <p className="mb-4 leading-relaxed">
-              G-Fleet tracks real-time compliance scores across the organization.
+              LMG-Fleet tracks real-time compliance scores across the organization.
             </p>
             <ul className="space-y-2 list-disc pl-5">
               <li><strong>Critical Violations:</strong> Ground a vehicle immediately (e.g., Unroadworthy damage, Expired license disk). These negatively impact the overall Fleet Readiness score.</li>
