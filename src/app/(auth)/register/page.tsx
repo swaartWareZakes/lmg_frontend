@@ -17,10 +17,13 @@ const DEPARTMENTS = [
 ];
 
 const ROLES = [
-  { label: "Fleet Administrator (Full Access)", value: "admin" },
-  { label: "LMG Assessor / Estimator", value: "assessor" },
+  { label: "Organization Admin", value: "org_admin" },
+  { label: "Fleet Manager", value: "fleet_manager" },
+  { label: "Assessor / Estimator", value: "assessor" },
   { label: "Workshop Technician", value: "technician" },
-  { label: "Fleet Driver / Operator", value: "driver" } // NEW DRIVER ROLE
+  { label: "Supplier / Parts Provider", value: "supplier" },
+  { label: "Viewer / Auditor", value: "viewer" },
+  { label: "Fleet Driver / Operator", value: "driver" }
 ];
 
 export default function RegisterPage() {
