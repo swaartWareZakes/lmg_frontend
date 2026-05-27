@@ -7,6 +7,7 @@ import { supabase } from "@/lib/supabase";
 import Sidebar from "@/components/layout/Sidebar";
 import Header from "@/components/layout/Header";
 import { Loader2 } from "lucide-react";
+import { api } from "@/lib/api";
 
 export default function DashboardLayout({
   children,
@@ -25,6 +26,13 @@ export default function DashboardLayout({
         // No session? Kick them to the login page immediately
         router.push("/login");
       } else {
+        const profile = await api.get("/orgs/me").catch(() => null);
+
+        if (profile?.role === "technician") {
+          router.replace("/technician");
+          return;
+        }
+
         // Authenticated! Render the dashboard
         setIsLoading(false);
       }

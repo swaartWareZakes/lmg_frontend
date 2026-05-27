@@ -1,17 +1,24 @@
 // --- ./src/app/dashboard/page.tsx ---
 "use client";
 
+
+
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
 import Link from "next/link";
 import StatCard from "@/components/dashboard/StatCard";
 import FleetPerformanceChart from "@/components/charts/FleetPerformanceChart";
 import RecentActivityTable from "@/components/dashboard/RecentActivityTable";
 import { Car, AlertTriangle, Calculator, CheckCircle, Loader2, FileWarning } from "lucide-react";
 import { api } from "@/lib/api";
+import { hasPermission } from "@/lib/roles";
 
 export default function DashboardPage() {
   const [profile, setProfile] = useState<any>(null);
   const [driverVehicle, setDriverVehicle] = useState<any>(null);
+
+  const router = useRouter();
 
   const [stats, setStats] = useState({
     totalVehicles: 0,
@@ -23,6 +30,34 @@ export default function DashboardPage() {
   
   const [recentActivity, setRecentActivity] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+  async function redirectRole() {
+    try {
+      const profile = await api.get("/orgs/me");
+
+      if (profile?.role === "technician") {
+        router.replace("/dashboard/technician");
+      }
+
+      if (profile?.role === "driver") {
+        router.replace("/dashboard/driver");
+      }
+
+      if (profile?.role === "supplier") {
+        router.replace("/dashboard/supplier");
+      }
+
+      if (profile?.role === "assessor") {
+        router.replace("/dashboard/estimations");
+      }
+    } catch (error) {
+      console.error("Role redirect failed", error);
+    }
+  }
+
+  redirectRole();
+}, [router]);
 
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -38,10 +73,15 @@ export default function DashboardPage() {
           if (myVehicles.length > 0) setDriverVehicle(myVehicles[0]);
         } else {
           // ADMIN: Fetch full fleet context concurrently
+          const canReadVehicles = hasPermission(userProfile, "vehicles:read");
+          const canReadMaintenance = hasPermission(userProfile, "maintenance:read");
+          const canReadCompliance = hasPermission(userProfile, "compliance:read");
+          const canWriteVehicles = hasPermission(userProfile, "vehicles:write");
+
           const [vehicles, logs, compliance] = await Promise.all([
-            api.get('/vehicles/'),
-            api.get('/maintenance/logs'),
-            api.get('/compliance/overview')
+            canReadVehicles ? api.get("/vehicles/") : Promise.resolve([]),
+            canReadMaintenance ? api.get("/maintenance/logs") : Promise.resolve([]),
+            canReadCompliance ? api.get("/compliance/overview") : Promise.resolve({ stats: {}, alerts: [] }),
           ]);
 
           const total = vehicles.length;
@@ -171,9 +211,11 @@ export default function DashboardPage() {
           <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">LMG-Fleet Overview</h1>
           <p className="text-zinc-500 dark:text-zinc-400 mt-1">Real-time government asset tracking and repair estimation portal.</p>
         </div>
-        <Link href="/dashboard/fleet" className="px-4 py-2 bg-brand-primary hover:bg-emerald-500 text-white rounded-lg text-sm font-medium transition-colors shadow-sm inline-flex items-center gap-2">
-          + Register Gov Vehicle
-        </Link>
+        {hasPermission(profile, "vehicles:write") && (
+          <Link href="/dashboard/fleet" className="px-4 py-2 bg-brand-primary hover:bg-emerald-500 text-white rounded-lg text-sm font-medium transition-colors shadow-sm inline-flex items-center gap-2">
+            + Register Gov Vehicle
+          </Link>
+        )}
       </div>
       
       {/* Top Stats Row */}
