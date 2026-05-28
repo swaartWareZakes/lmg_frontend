@@ -340,8 +340,8 @@ export default function Sidebar() {
         icon: Search,
       },
       {
-        name: "Repair Estimates",
-        href: "/technician/estimates",
+        name: "OEM Benchmark",
+        href: "/technician/oem-estimates",
         icon: Calculator,
       },
       {

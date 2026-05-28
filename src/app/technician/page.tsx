@@ -110,11 +110,11 @@ export default function TechnicianHomePage() {
             </div>
           </Link>
 
-          <Link href="/technician/estimates" className="flex items-center gap-3 rounded-2xl border border-zinc-800 bg-zinc-900/70 p-5 hover:border-emerald-500/50">
+          <Link href="/technician/oem-estimates" className="flex items-center gap-3 rounded-2xl border border-zinc-800 bg-zinc-900/70 p-5 hover:border-emerald-500/50">
             <Calculator className="text-emerald-400" />
             <div>
-              <p className="font-semibold text-white">Repair Estimates</p>
-              <p className="text-sm text-zinc-500">Draft labour, parts and paint estimates.</p>
+              <p className="font-semibold text-white">OEM Benchmark</p>
+              <p className="text-sm text-zinc-500">Compare AI estimate with external benchmark pricing.</p>
             </div>
           </Link>
         </section>
