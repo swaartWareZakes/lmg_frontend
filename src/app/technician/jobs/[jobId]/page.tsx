@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { useParams, useRouter } from "next/navigation";
 import {
   AlertTriangle,
   Bot,
@@ -58,8 +59,15 @@ function estimateLabel(e: any) {
   return `${e.source} · ${currency(e.total_estimate)} · ${e.status}`;
 }
 
-export default function GuidedJobCardPage({ params }: { params: { jobId: string } }) {
-  const jobId = params.jobId;
+export default function GuidedJobCardPage() {
+  const params = useParams();
+  const router = useRouter();
+
+  const jobId = typeof params?.jobId === "string"
+    ? params.jobId
+    : Array.isArray(params?.jobId)
+      ? params.jobId[0]
+      : "";
 
   const [job, setJob] = useState<any>(null);
   const [photos, setPhotos] = useState<any[]>([]);
@@ -99,6 +107,11 @@ export default function GuidedJobCardPage({ params }: { params: { jobId: string 
   const canEnterActuals = Boolean(approvedEstimate) || ["Approved", "Repair In Progress", "Waiting for Parts", "Quality Check"].includes(job?.status);
 
   const load = async () => {
+    if (!jobId || jobId === "undefined") {
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
     try {
       const [jobData, photoData, aiData, oemData, comparison] = await Promise.all([
@@ -109,13 +122,20 @@ export default function GuidedJobCardPage({ params }: { params: { jobId: string 
         api.get(`/technicians/jobs/${jobId}/cost-comparison`).catch(() => null),
       ]);
 
-      setJob(jobData);
+      console.log("JOB CARD RAW RESPONSE", jobData);
+
+      const normalizedJob =
+        jobData?.job ||
+        jobData?.data ||
+        (Array.isArray(jobData) ? jobData[0] : jobData);
+
+      setJob(normalizedJob);
       setPhotos(photoData || []);
-      setFindings(jobData?.findings || []);
-      setNotes(jobData?.notes || []);
-      setAiEstimates(aiData || []);
-      setOemEstimates(oemData || []);
-      setCostComparison(comparison);
+      setFindings(jobData?.findings || normalizedJob?.findings || []);
+      setNotes(jobData?.notes || normalizedJob?.notes || []);
+      setAiEstimates(Array.isArray(aiData) ? aiData : aiData?.estimates || aiData?.data || []);
+      setOemEstimates(Array.isArray(oemData) ? oemData : oemData?.estimates || oemData?.data || []);
+      setCostComparison(comparison?.data || comparison);
 
       const combined = [...(aiData || []), ...(oemData || [])];
       const preferred =
@@ -130,6 +150,11 @@ export default function GuidedJobCardPage({ params }: { params: { jobId: string 
   };
 
   useEffect(() => {
+    if (!jobId || jobId === "undefined") {
+      setLoading(false);
+      return;
+    }
+
     load();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [jobId]);
@@ -185,6 +210,20 @@ export default function GuidedJobCardPage({ params }: { params: { jobId: string 
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
         <Loader2 className="animate-spin text-emerald-400" size={32} />
+      </div>
+    );
+  }
+
+  if (!jobId || jobId === "undefined") {
+    return (
+      <div className="space-y-4 p-8 text-zinc-400">
+        <p>Invalid job card link.</p>
+        <button
+          onClick={() => router.replace("/technician/jobs")}
+          className="rounded-xl bg-emerald-500 px-4 py-3 text-sm font-semibold text-white"
+        >
+          Back to Assigned Jobs
+        </button>
       </div>
     );
   }
