@@ -27,7 +27,7 @@ const toolLinks = [
   { name: "OEM Benchmark", href: "/technician/oem-estimates", icon: Calculator },
   { name: "Repair Guidance", href: "/technician/guidance", icon: BookOpen },
   { name: "Diagnostics Assist", href: "/technician/diagnostics", icon: Stethoscope },
-  { name: "Service Schedules", href: "/dashboard/service", icon: Clock },
+  { name: "Service Schedules", href: "/technician/service", icon: Clock },
 ];
 
 export default function TechnicianSidebar() {
@@ -57,7 +57,7 @@ export default function TechnicianSidebar() {
   };
 
   return (
-    <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-zinc-800 bg-[#111318] md:flex">
+    <div className="flex h-full w-full flex-col bg-[#111318]">
       <div className="flex h-16 items-center gap-3 border-b border-zinc-800 px-5">
         <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-500 text-white">
           <Car size={19} />
@@ -90,6 +90,6 @@ export default function TechnicianSidebar() {
           <p className="text-sm font-bold text-zinc-100">Technician</p>
         </div>
       </div>
-    </aside>
+    </div>
   );
 }

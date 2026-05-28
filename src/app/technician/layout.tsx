@@ -24,7 +24,7 @@ export default function TechnicianLayout({
 
       <aside
         className={[
-          "fixed inset-y-0 left-0 z-50 w-72 max-w-[86vw] transform border-r border-white/10 bg-zinc-950 shadow-2xl transition-transform duration-300",
+          "fixed inset-y-0 left-0 z-50 w-[82vw] max-w-[360px] transform border-r border-white/10 bg-zinc-950 shadow-2xl transition-transform duration-300",
           sidebarOpen ? "translate-x-0" : "-translate-x-full",
           "lg:translate-x-0",
         ].join(" ")}
