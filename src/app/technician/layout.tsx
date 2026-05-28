@@ -1,60 +1,82 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { Loader2 } from "lucide-react";
-import { supabase } from "@/lib/supabase";
-import { api } from "@/lib/api";
+import { useState } from "react";
+import { Menu, X, Wrench } from "lucide-react";
 import TechnicianSidebar from "@/components/technician/TechnicianSidebar";
-import TechnicianHeader from "@/components/technician/TechnicianHeader";
+import ThemeToggle from "@/components/layout/ThemeToggle";
 
-export default function TechnicianLayout({ children }: { children: React.ReactNode }) {
-  const router = useRouter();
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const checkAccess = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-
-      if (!session) {
-        router.replace("/login");
-        return;
-      }
-
-      try {
-        const profile = await api.get("/orgs/me");
-
-        if (profile?.role !== "technician" && profile?.role !== "super_admin" && profile?.role !== "org_admin") {
-          router.replace("/dashboard");
-          return;
-        }
-
-        setLoading(false);
-      } catch {
-        router.replace("/login");
-      }
-    };
-
-    checkAccess();
-  }, [router]);
-
-  if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-[#0f1115] text-zinc-400">
-        <div className="flex flex-col items-center gap-3">
-          <Loader2 className="h-9 w-9 animate-spin text-emerald-500" />
-          <p className="text-sm">Opening technician workspace...</p>
-        </div>
-      </div>
-    );
-  }
+export default function TechnicianLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#0f1115] text-zinc-100">
-      <TechnicianSidebar />
-      <div className="md:ml-64 min-h-screen flex flex-col">
-        <TechnicianHeader />
-        <main className="flex-1 overflow-auto p-6">{children}</main>
+    <div className="min-h-screen bg-zinc-950 text-zinc-100">
+      {sidebarOpen && (
+        <button
+          aria-label="Close technician navigation overlay"
+          onClick={() => setSidebarOpen(false)}
+          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden"
+        />
+      )}
+
+      <aside
+        className={[
+          "fixed inset-y-0 left-0 z-50 w-72 max-w-[86vw] transform border-r border-white/10 bg-zinc-950 shadow-2xl transition-transform duration-300",
+          sidebarOpen ? "translate-x-0" : "-translate-x-full",
+          "lg:translate-x-0",
+        ].join(" ")}
+      >
+        <div className="flex h-16 items-center justify-between border-b border-white/10 px-4 lg:hidden">
+          <div className="flex items-center gap-2 font-bold">
+            <Wrench size={18} className="text-emerald-400" />
+            Technician
+          </div>
+          <button
+            onClick={() => setSidebarOpen(false)}
+            className="rounded-xl border border-white/10 p-2 text-zinc-300 hover:bg-white/10"
+            aria-label="Close sidebar"
+          >
+            <X size={18} />
+          </button>
+        </div>
+
+        <div onClick={() => setSidebarOpen(false)} className="h-full overflow-y-auto">
+          <TechnicianSidebar />
+        </div>
+      </aside>
+
+      <div className="min-h-screen lg:pl-72">
+        <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-white/10 bg-zinc-950/85 px-3 backdrop-blur-xl sm:px-4 md:px-6">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="rounded-xl border border-white/10 p-2 text-zinc-200 hover:bg-white/10 lg:hidden"
+              aria-label="Open sidebar"
+            >
+              <Menu size={20} />
+            </button>
+
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-400">
+                MUNI-VRESS
+              </p>
+              <h1 className="text-sm font-bold text-white sm:text-base">
+                Technician Workspace
+              </h1>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+          </div>
+        </header>
+
+        <main className="mx-auto w-full max-w-[1600px] p-3 sm:p-4 md:p-5 lg:p-6">
+          {children}
+        </main>
       </div>
     </div>
   );

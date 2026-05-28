@@ -18,3 +18,40 @@
 body {
   font-family: var(--font-sans), sans-serif;
 }
+/* VRESS tablet/PWA polish */
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  overscroll-behavior-y: none;
+}
+
+button,
+a,
+select,
+input,
+textarea {
+  touch-action: manipulation;
+}
+
+@media (max-width: 1024px) {
+  .tablet-card-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  table {
+    min-width: 720px;
+  }
+}
+
+@media (display-mode: standalone) {
+  body {
+    user-select: none;
+  }
+
+  input,
+  textarea {
+    user-select: text;
+  }
+}
