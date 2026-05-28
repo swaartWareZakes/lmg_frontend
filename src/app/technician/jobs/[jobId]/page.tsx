@@ -122,8 +122,6 @@ export default function GuidedJobCardPage() {
         api.get(`/technicians/jobs/${jobId}/cost-comparison`).catch(() => null),
       ]);
 
-      console.log("JOB CARD RAW RESPONSE", jobData);
-
       const normalizedJob =
         jobData?.job ||
         jobData?.data ||
@@ -451,6 +449,7 @@ export default function GuidedJobCardPage() {
         </div>
       </section>
 
+      {canEnterActuals ? (
       <section className={`rounded-3xl border p-6 ${
         canEnterActuals
           ? "border-zinc-800 bg-zinc-900/70"
@@ -504,6 +503,20 @@ export default function GuidedJobCardPage() {
           </div>
         )}
       </section>
+
+      ) : (
+        <section className="rounded-3xl border border-amber-500/20 bg-amber-500/5 p-6">
+          <div className="flex items-start gap-3">
+            <AlertTriangle className="mt-1 text-amber-400" size={18} />
+            <div>
+              <h2 className="font-semibold text-white">Actual costs locked</h2>
+              <p className="mt-1 text-sm text-zinc-400">
+                Actual repair costs unlock only after admin approves the selected estimate.
+              </p>
+            </div>
+          </div>
+        </section>
+      )}
     </div>
   );
 }

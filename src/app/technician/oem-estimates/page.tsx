@@ -271,8 +271,29 @@ export default function TechnicianOemEstimatesPage() {
       api.get(`/technicians/jobs/${jobId}/oem-estimates`),
     ]);
 
-    setAiEstimates(ai || []);
-    setOemEstimates(oem || []);
+    const aiOnly = [...(ai || [])]
+      .filter((estimate: Estimate) =>
+        estimate.source === "ai" ||
+        estimate.source === "ai_estimate" ||
+        estimate.source === "vress_ai" ||
+        estimate.source === "technician_adjusted"
+      )
+      .sort((a: Estimate, b: Estimate) =>
+        new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime()
+      );
+
+    const oemOnly = [...(oem || [])]
+      .filter((estimate: Estimate) =>
+        estimate.source === "vehicle_databases_benchmark" ||
+        estimate.source === "oem_benchmark" ||
+        estimate.source === "market_repair_benchmark"
+      )
+      .sort((a: Estimate, b: Estimate) =>
+        new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime()
+      );
+
+    setAiEstimates(aiOnly);
+    setOemEstimates(oemOnly);
   };
 
   const refresh = async () => {

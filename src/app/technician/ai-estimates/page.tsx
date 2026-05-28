@@ -14,6 +14,7 @@ import {
   Wrench,
 } from "lucide-react";
 import { api } from "@/lib/api";
+import { supabase } from "@/lib/supabase";
 
 type Job = {
   id: string;
@@ -145,12 +146,18 @@ export default function TechnicianAiEstimatesPage() {
       form.append("photo_type", photoType);
       form.append("caption", caption);
 
-      const token = localStorage.getItem("vress_token") || localStorage.getItem("token");
+      const { data: sessionData } = await supabase.auth.getSession();
+      const token = sessionData.session?.access_token;
+
+      if (!token) {
+        throw new Error("Missing auth session. Please log out and log back in.");
+      }
+
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api"}/technicians/jobs/${jobId}/photos`,
         {
           method: "POST",
-          headers: token ? { Authorization: `Bearer ${token}` } : {},
+          headers: { Authorization: `Bearer ${token}` },
           body: form,
         }
       );
