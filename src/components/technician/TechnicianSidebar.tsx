@@ -12,6 +12,7 @@ import {
   Stethoscope,
   Clock,
   Car,
+  UserCircle,
 } from "lucide-react";
 import clsx from "clsx";
 
@@ -19,6 +20,7 @@ const primaryLinks = [
   { name: "Technician Home", href: "/technician", icon: LayoutDashboard },
   { name: "Assigned Jobs", href: "/technician/jobs", icon: ClipboardList },
   { name: "Maintenance Updates", href: "/technician/maintenance", icon: Wrench },
+  { name: "Profile", href: "/technician/profile", icon: UserCircle },
 ];
 
 const toolLinks = [
@@ -46,8 +48,8 @@ export default function TechnicianSidebar() {
         className={clsx(
           "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition",
           active
-            ? "bg-emerald-500/10 text-emerald-400"
-            : "text-zinc-400 hover:bg-zinc-800 hover:text-zinc-100"
+            ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+            : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
         )}
       >
         <item.icon size={18} />
@@ -57,37 +59,37 @@ export default function TechnicianSidebar() {
   };
 
   return (
-    <div className="flex h-full w-full flex-col bg-[#111318]">
-      <div className="flex h-16 items-center gap-3 border-b border-zinc-800 px-5">
+    <div className="flex h-full w-full flex-col bg-white text-zinc-950 dark:bg-[#111318] dark:text-zinc-100">
+      <div className="flex h-16 items-center gap-3 border-b border-zinc-200 px-5 dark:border-zinc-800">
         <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-500 text-white">
           <Car size={19} />
         </div>
         <div>
-          <p className="text-base font-bold text-white">LMG-Fleet</p>
-          <p className="text-xs text-zinc-500">Technician Workspace</p>
+          <p className="text-base font-bold text-zinc-950 dark:text-white">LMG-Fleet</p>
+          <p className="text-xs text-zinc-500 dark:text-zinc-500">Technician Workspace</p>
         </div>
       </div>
 
       <div className="flex-1 overflow-y-auto px-4 py-6">
         <div>
-          <p className="mb-2 px-2 text-xs font-semibold uppercase tracking-wider text-zinc-500">
+          <p className="mb-2 px-2 text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-500">
             Technician Operations
           </p>
           <div className="space-y-1">{primaryLinks.map(renderLink)}</div>
         </div>
 
         <div className="mt-8">
-          <p className="mb-2 px-2 text-xs font-semibold uppercase tracking-wider text-zinc-500">
+          <p className="mb-2 px-2 text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-500">
             Repair Tools
           </p>
           <div className="space-y-1">{toolLinks.map(renderLink)}</div>
         </div>
       </div>
 
-      <div className="border-t border-zinc-800 p-4">
-        <div className="rounded-xl bg-zinc-900 p-3">
-          <p className="text-xs text-zinc-500">Logged in as</p>
-          <p className="text-sm font-bold text-zinc-100">Technician</p>
+      <div className="border-t border-zinc-200 p-4 dark:border-zinc-800">
+        <div className="rounded-xl bg-zinc-100 p-3 dark:bg-zinc-900">
+          <p className="text-xs text-zinc-500 dark:text-zinc-500">Logged in as</p>
+          <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100">Technician</p>
         </div>
       </div>
     </div>
