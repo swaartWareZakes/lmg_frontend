@@ -84,7 +84,7 @@ function SidebarSkeleton() {
           <div className="w-8 h-8 rounded-lg bg-brand-primary flex items-center justify-center text-white">
             <Car size={20} />
           </div>
-          VRESS-Fleet
+          LMG-Fleet
         </span>
       </div>
 
@@ -442,7 +442,7 @@ export default function Sidebar() {
           <div className="w-8 h-8 rounded-lg bg-brand-primary flex items-center justify-center text-white">
             <Car size={20} />
           </div>
-          VRESS-Fleet
+          LMG-Fleet
         </span>
       </div>
 
@@ -510,7 +510,7 @@ export default function Sidebar() {
         {showEstimations && (
           <div>
             <div className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-2 px-2">
-              VRESS Estimations
+              LMG Estimations
             </div>
 
             <div className="flex flex-col gap-1">
@@ -580,9 +580,29 @@ export default function Sidebar() {
             <div className="flex flex-col gap-1">
               {renderLinks([
                 {
+                  name: "Admin Control",
+                  href: "/dashboard/admin",
+                  icon: LayoutDashboard,
+                },
+                {
+                  name: "All Jobs",
+                  href: "/dashboard/admin/jobs",
+                  icon: ClipboardList,
+                },
+                {
+                  name: "Approval Queue",
+                  href: "/dashboard/admin/approvals",
+                  icon: ShieldCheck,
+                },
+                {
                   name: "Users & Roles",
-                  href: "/dashboard/users",
+                  href: "/dashboard/admin/users",
                   icon: Users,
+                },
+                {
+                  name: "Parts Inventory",
+                  href: "/dashboard/admin/parts",
+                  icon: PackageSearch,
                 },
                 {
                   name: "Role Permissions",

@@ -404,7 +404,7 @@ export default function TechnicianHomePage() {
               <ActionCard
                 href="/technician/ai-estimates"
                 title="Photo to estimate"
-                description="Upload damage evidence and generate a VRESS AI estimate."
+                description="Upload damage evidence and generate a LMG AI estimate."
                 icon={<Bot size={18} />}
                 tone="purple"
               />

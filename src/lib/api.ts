@@ -1,3 +1,26 @@
+
+async function buildApiError(response: Response) {
+  let payload: any = null;
+
+  try {
+    payload = await response.json();
+  } catch {
+    payload = null;
+  }
+
+  const detail = payload?.detail ?? payload?.message ?? payload;
+  const message =
+    typeof detail === "object"
+      ? detail.message || detail.next_step || JSON.stringify(detail)
+      : detail || response.statusText || `HTTP ${response.status}`;
+
+  const error: any = new Error(message);
+  error.status = response.status;
+  error.detail = detail;
+  error.payload = payload;
+  return error;
+}
+
 // --- ./src/lib/api.ts ---
 import { supabase } from './supabase';
 
@@ -23,7 +46,7 @@ export const api = {
   async get(endpoint: string) {
     const headers = await getHeaders();
     const res = await fetch(`${API_BASE_URL}${endpoint}`, { headers });
-    if (!res.ok) throw new Error(`API Error: ${res.statusText}`);
+    if (!res.ok) throw await buildApiError(res);
     return res.json();
   },
   
@@ -34,7 +57,7 @@ export const api = {
       headers,
       body: JSON.stringify(data)
     });
-    if (!res.ok) throw new Error(`API Error: ${res.statusText}`);
+    if (!res.ok) throw await buildApiError(res);
     return res.json();
   },
 
@@ -45,7 +68,7 @@ export const api = {
       headers,
       body: formData // Browser automatically sets Content-Type to multipart/form-data
     });
-    if (!res.ok) throw new Error(`API Error: ${res.statusText}`);
+    if (!res.ok) throw await buildApiError(res);
     return res.json();
   },
 
@@ -56,7 +79,7 @@ export const api = {
       headers,
       body: JSON.stringify(data)
     });
-    if (!res.ok) throw new Error(`API Error: ${res.statusText}`);
+    if (!res.ok) throw await buildApiError(res);
     return res.json();
   },
 
@@ -67,7 +90,7 @@ export const api = {
       method: 'DELETE',
       headers,
     });
-    if (!res.ok) throw new Error(`API Error: ${res.statusText}`);
+    if (!res.ok) throw await buildApiError(res);
     return res.json();
   }
 };

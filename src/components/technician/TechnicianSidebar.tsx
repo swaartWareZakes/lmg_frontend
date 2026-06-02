@@ -63,7 +63,7 @@ export default function TechnicianSidebar() {
           <Car size={19} />
         </div>
         <div>
-          <p className="text-base font-bold text-white">VRESS-Fleet</p>
+          <p className="text-base font-bold text-white">LMG-Fleet</p>
           <p className="text-xs text-zinc-500">Technician Workspace</p>
         </div>
       </div>

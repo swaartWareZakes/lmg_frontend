@@ -82,12 +82,22 @@ const openStatuses = new Set([
   "Quality Check",
 ]);
 
+function getProviderErrorMessage(err: any) {
+  const detail = err?.detail ?? err?.payload?.detail ?? err?.message ?? err;
+
+  if (typeof detail === "object" && detail !== null) {
+    return detail.message || detail.next_step || JSON.stringify(detail);
+  }
+
+  return String(detail || "Failed to request external benchmark.");
+}
+
 function sourceLabel(source?: string) {
   if (source === "vehicle_databases_benchmark" || source === "oem_benchmark") {
     return "OEM / Market Benchmark";
   }
   if (source === "technician_adjusted") return "Technician Adjusted AI";
-  if (source === "ai") return "VRESS AI";
+  if (source === "ai") return "LMG AI";
   return source || "Estimate";
 }
 
@@ -209,6 +219,7 @@ export default function TechnicianOemEstimatesPage() {
   const [selectedJobId, setSelectedJobId] = useState("");
   const [aiEstimates, setAiEstimates] = useState<Estimate[]>([]);
   const [oemEstimates, setOemEstimates] = useState<Estimate[]>([]);
+  const [providerMessage, setProviderMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [laborRate, setLaborRate] = useState(450);
@@ -246,10 +257,10 @@ export default function TechnicianOemEstimatesPage() {
       percent,
       label:
         amount > 0
-          ? "OEM benchmark is above VRESS AI."
+          ? "OEM benchmark is above LMG AI."
           : amount < 0
-            ? "OEM benchmark is below VRESS AI."
-            : "OEM benchmark matches VRESS AI.",
+            ? "OEM benchmark is below LMG AI."
+            : "OEM benchmark matches LMG AI.",
     };
   }, [latestAi, latestOem]);
 
@@ -275,7 +286,7 @@ export default function TechnicianOemEstimatesPage() {
       .filter((estimate: Estimate) =>
         estimate.source === "ai" ||
         estimate.source === "ai_estimate" ||
-        estimate.source === "vress_ai" ||
+        estimate.source === "lmg_ai" ||
         estimate.source === "technician_adjusted"
       )
       .sort((a: Estimate, b: Estimate) =>
@@ -298,6 +309,7 @@ export default function TechnicianOemEstimatesPage() {
 
   const refresh = async () => {
     setLoading(true);
+    setProviderMessage(null);
     setError(null);
 
     try {
@@ -332,6 +344,7 @@ export default function TechnicianOemEstimatesPage() {
     }
 
     setGenerating(true);
+    setProviderMessage(null);
     setError(null);
 
     try {
@@ -346,8 +359,9 @@ export default function TechnicianOemEstimatesPage() {
 
       await fetchEstimates(selectedJobId);
     } catch (err: any) {
-      setError(err?.message || "OEM benchmark estimate failed.");
-      alert(err?.message || "OEM benchmark estimate failed.");
+      const message = getProviderErrorMessage(err);
+      setError(message);
+      setProviderMessage(message);
     } finally {
       setGenerating(false);
     }
@@ -369,7 +383,7 @@ export default function TechnicianOemEstimatesPage() {
             <p className="text-sm font-semibold text-emerald-400">Estimates</p>
             <h1 className="mt-1 text-3xl font-bold text-white">OEM Benchmark Estimate</h1>
             <p className="mt-2 max-w-3xl text-sm text-zinc-400">
-              Compare the VRESS AI estimate against Vehicle Databases repair-pricing benchmark data.
+              Compare the LMG AI estimate against Vehicle Databases repair-pricing benchmark data.
               Once admin approves one estimate source, the alternative source becomes read-only.
             </p>
           </div>
@@ -462,7 +476,7 @@ export default function TechnicianOemEstimatesPage() {
             <div className="mb-4 flex items-center justify-between">
               <div>
                 <p className="text-sm font-semibold text-emerald-400">Internal</p>
-                <h2 className="text-xl font-bold text-white">VRESS AI Estimate</h2>
+                <h2 className="text-xl font-bold text-white">LMG AI Estimate</h2>
               </div>
               {latestAi && (
                 <span className={`rounded-full border px-3 py-1 text-xs font-semibold ${statusClass(latestAi.status)}`}>
@@ -493,6 +507,13 @@ export default function TechnicianOemEstimatesPage() {
             {locked && !latestOem && (
               <div className="mb-4 rounded-xl border border-zinc-800 bg-black p-3 text-sm text-zinc-500">
                 OEM benchmark is greyed out because an estimate has already been approved for this job.
+              </div>
+            )}
+
+            {providerMessage && (
+              <div className="mb-4 rounded-2xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm leading-6 text-amber-200">
+                <p className="font-bold text-amber-100">No external benchmark available</p>
+                <p className="mt-1">{providerMessage}</p>
               </div>
             )}
 

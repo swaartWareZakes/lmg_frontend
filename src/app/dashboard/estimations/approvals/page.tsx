@@ -37,7 +37,7 @@ export default function FinanceApprovalsPage() {
     <div className="flex flex-col gap-6 animate-in fade-in duration-500">
       <div>
         <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">Finance Quote Approvals</h1>
-        <p className="text-zinc-500 dark:text-zinc-400 mt-1">Review and approve pending VRESS damage estimates.</p>
+        <p className="text-zinc-500 dark:text-zinc-400 mt-1">Review and approve pending LMG damage estimates.</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

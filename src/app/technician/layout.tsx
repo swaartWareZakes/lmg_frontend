@@ -83,7 +83,7 @@ export default function TechnicianLayout({
 
             <div className="min-w-0">
               <p className="truncate text-xs font-semibold uppercase tracking-[0.22em] text-emerald-400">
-                VRESS
+                LMG
               </p>
               <h1 className="truncate text-sm font-bold text-white sm:text-base">
                 Technician Workspace

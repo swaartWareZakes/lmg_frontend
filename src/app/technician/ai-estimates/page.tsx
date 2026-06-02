@@ -207,7 +207,7 @@ export default function TechnicianAiEstimatesPage() {
           <p className="text-sm font-semibold text-emerald-400">Estimates</p>
           <h1 className="text-3xl font-bold text-white">AI Estimate</h1>
           <p className="mt-2 max-w-3xl text-sm text-zinc-400">
-            Upload job evidence and generate the VRESS AI estimate here. The job card only submits saved estimates for approval.
+            Upload job evidence and generate the LMG AI estimate here. The job card only submits saved estimates for approval.
           </p>
         </div>
 
@@ -324,7 +324,7 @@ export default function TechnicianAiEstimatesPage() {
             <div>
               <div className="flex items-center gap-2">
                 <Bot className="text-emerald-400" size={18} />
-                <h2 className="font-semibold text-white">VRESS AI Estimate</h2>
+                <h2 className="font-semibold text-white">LMG AI Estimate</h2>
               </div>
               <p className="mt-1 text-sm text-zinc-500">
                 Generate or review the AI draft. Submit approval from the job card.

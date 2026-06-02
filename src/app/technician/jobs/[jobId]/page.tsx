@@ -55,7 +55,7 @@ function estimateLabel(e: any) {
   if (e.source === "vehicle_databases_benchmark" || e.source === "oem_benchmark") {
     return `OEM Benchmark · ${currency(e.total_estimate)} · ${e.status}`;
   }
-  if (e.source === "ai") return `VRESS AI · ${currency(e.total_estimate)} · ${e.status}`;
+  if (e.source === "ai") return `LMG AI · ${currency(e.total_estimate)} · ${e.status}`;
   return `${e.source} · ${currency(e.total_estimate)} · ${e.status}`;
 }
 

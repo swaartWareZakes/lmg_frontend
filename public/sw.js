@@ -1,4 +1,4 @@
-const CACHE_NAME = "vress-pwa-v1";
+const CACHE_NAME = "lmg-pwa-v1";
 const APP_SHELL = [
   "/",
   "/technician",

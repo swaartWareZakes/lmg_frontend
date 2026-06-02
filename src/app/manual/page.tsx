@@ -36,7 +36,7 @@ const sections = [
     items: [
       "Create or open a technician job card.",
       "Capture inspection findings and photos from the relevant estimate page.",
-      "Generate the VRESS AI estimate from job evidence.",
+      "Generate the LMG AI estimate from job evidence.",
       "Optionally request a Vehicle Databases market repair benchmark.",
       "Return to the job card, select the estimate to submit, and send it for approval.",
       "After approval, unlock actual repair costs and variance tracking.",
@@ -106,7 +106,7 @@ export default function ManualPage() {
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500 text-white">
               <Car size={19} />
             </div>
-            MUNI-VRESS
+            LMG
           </div>
 
           <nav className="flex items-center gap-3">
@@ -133,10 +133,10 @@ export default function ManualPage() {
               User Manual
             </p>
             <h1 className="max-w-4xl text-4xl font-black tracking-tight text-zinc-950 dark:text-white sm:text-5xl">
-              MUNI-VRESS Fleet, Technician and AI Estimate Manual
+              LMG Fleet, Technician and AI Estimate Manual
             </h1>
             <p className="mt-5 max-w-3xl text-base leading-7 text-zinc-600 dark:text-zinc-300 sm:text-lg">
-              This guide explains how to use MUNI-VRESS across fleet operations, technician job cards,
+              This guide explains how to use LMG across fleet operations, technician job cards,
               AI repair estimates, Vehicle Databases benchmarks, approvals, actual costs, diagnostics,
               maintenance and tablet/PWA workflows.
             </p>
@@ -222,7 +222,7 @@ export default function ManualPage() {
             />
             <Step
               number="3"
-              title="Generate the VRESS AI estimate"
+              title="Generate the LMG AI estimate"
               description="The AI estimate uses the job details and uploaded photos to draft repair lines, labour, parts, paint and total estimate values."
             />
             <Step
@@ -250,7 +250,7 @@ export default function ManualPage() {
           <div className="grid gap-5 lg:grid-cols-2">
             <Card icon={<Sparkles size={22} />} title="AI Estimates">
               <p>
-                The AI Estimates page is where technicians upload evidence and generate the internal VRESS estimate.
+                The AI Estimates page is where technicians upload evidence and generate the internal LMG estimate.
                 It should be used for photo-based collision, body, bumper, headlamp, grille, fender and paint assessments.
               </p>
               <ul className="mt-3 space-y-1">
@@ -263,11 +263,11 @@ export default function ManualPage() {
 
             <Card icon={<Database size={22} />} title="OEM / Market Benchmark">
               <p>
-                The OEM Benchmark page compares the VRESS AI estimate against Vehicle Databases repair benchmark data.
+                The OEM Benchmark page compares the LMG AI estimate against Vehicle Databases repair benchmark data.
                 It keeps AI and external benchmark estimates separate so one does not overwrite the other.
               </p>
               <ul className="mt-3 space-y-1">
-                <li>• Left panel: internal VRESS AI estimate.</li>
+                <li>• Left panel: internal LMG AI estimate.</li>
                 <li>• Right panel: external Vehicle Databases benchmark.</li>
                 <li>• Bottom panel: variance between AI and benchmark.</li>
                 <li>• If provider data is general service data, validate relevance before approval.</li>
@@ -356,12 +356,12 @@ export default function ManualPage() {
           </h2>
           <ol className="space-y-3 text-sm leading-6 text-zinc-700 dark:text-zinc-200">
             <li><strong>1.</strong> Open <strong>Chrome</strong> on the Samsung/Android A7 tablet.</li>
-            <li><strong>2.</strong> Go to the deployed VRESS URL, for example the Vercel production link.</li>
+            <li><strong>2.</strong> Go to the deployed LMG URL, for example the Vercel production link.</li>
             <li><strong>3.</strong> Log in once so the technician workspace loads correctly.</li>
             <li><strong>4.</strong> Tap the <strong>three-dot menu</strong> in the top-right of Chrome.</li>
             <li><strong>5.</strong> Tap <strong>Add to Home screen</strong> or <strong>Install app</strong>.</li>
-            <li><strong>6.</strong> Confirm the app name, for example <strong>VRESS</strong>.</li>
-            <li><strong>7.</strong> Open VRESS from the tablet home screen. It should open like a standalone app.</li>
+            <li><strong>6.</strong> Confirm the app name, for example <strong>LMG</strong>.</li>
+            <li><strong>7.</strong> Open LMG from the tablet home screen. It should open like a standalone app.</li>
           </ol>
           <p className="mt-4 text-sm text-zinc-600 dark:text-zinc-300">
             If the install option does not show, refresh the page, confirm the site is using HTTPS, and make sure the latest
@@ -378,7 +378,7 @@ export default function ManualPage() {
               <li>• Open Assigned Jobs.</li>
               <li>• Choose the active job card.</li>
               <li>• Upload evidence from AI Estimates.</li>
-              <li>• Generate the VRESS AI estimate.</li>
+              <li>• Generate the LMG AI estimate.</li>
               <li>• Compare against Vehicle Databases where useful.</li>
             </ul>
             <ul className="space-y-2 text-sm leading-6 text-zinc-600 dark:text-zinc-300">

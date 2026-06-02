@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "MUNI-VRESS Technician",
-    short_name: "VRESS",
+    name: "LMG Technician",
+    short_name: "LMG",
     description: "Technician-first fleet repair, AI estimate and job workflow system.",
     start_url: "/technician",
     scope: "/",
