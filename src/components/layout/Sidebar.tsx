@@ -25,6 +25,7 @@ import {
   PackageSearch,
   Eye,
   ClipboardCheck,
+  Database,
 } from "lucide-react";
 import clsx from "clsx";
 import { api } from "@/lib/api";
@@ -598,6 +599,11 @@ export default function Sidebar() {
                   name: "Users & Roles",
                   href: "/dashboard/admin/users",
                   icon: Users,
+                },
+                {
+                  name: "Pricing Matrix",
+                  href: "/dashboard/admin/pricing",
+                  icon: Database,
                 },
                 {
                   name: "Parts Inventory",

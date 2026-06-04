@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { ArrowLeft, Loader2, MessageSquare, Send } from "lucide-react";
 import { api } from "@/lib/api";
+import DamageIntakeForm from "@/components/evidence/DamageIntakeForm";
+import EvidencePackagePanel from "@/components/evidence/EvidencePackagePanel";
 
 const currency = (value: any) =>
   `R ${Number(value || 0).toLocaleString("en-ZA", {
@@ -106,6 +108,12 @@ export default function AdminJobDetailPage() {
             </p>
           </div>
         </div>
+      </div>
+
+
+      <div className="grid gap-5 xl:grid-cols-2">
+        <DamageIntakeForm jobId={jobId} readOnly />
+        <EvidencePackagePanel jobId={jobId} readOnly />
       </div>
 
       <div className="grid gap-5 xl:grid-cols-2">

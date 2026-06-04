@@ -211,6 +211,7 @@ export default function AdminDashboardPage() {
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-1">
           <QuickLink href="/dashboard/admin/approvals" title="Approval Queue" description="Review selected estimates, approve, reject, or request revision." icon={<ShieldCheck size={20} />} />
           <QuickLink href="/dashboard/admin/users" title="Users & Workload" description="Track users, roles, status and technician job load." icon={<Users size={20} />} />
+          <QuickLink href="/dashboard/admin/pricing" title="Pricing Matrix" description="Manage LMG repair benchmarks for parts, labour and paint." icon={<Database size={20} />} />
           <QuickLink href="/dashboard/admin/parts" title="Parts Inventory" description="Manage stock, low-stock parts, suppliers and job reservations." icon={<PackageSearch size={20} />} />
         </div>
       </section>

@@ -72,6 +72,17 @@ export const api = {
     return res.json();
   },
 
+  async put(endpoint: string, data: any = {}) {
+    const headers = await getHeaders();
+    const res = await fetch(`${API_BASE_URL}${endpoint}`, {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify(data)
+    });
+    if (!res.ok) throw new Error(`API Error: ${res.statusText}`);
+    return res.json();
+  },
+
   async patch(endpoint: string, data: any = {}) {
     const headers = await getHeaders();
     const res = await fetch(`${API_BASE_URL}${endpoint}`, {
