@@ -219,7 +219,7 @@ export default function AI_EstimationsPage() {
               <div className="flex justify-between text-zinc-600 dark:text-zinc-400"><span>System Parts:</span> <span>R {systemParts.toLocaleString()}</span></div>
               <div className="flex justify-between text-zinc-600 dark:text-zinc-400"><span>System Labor (@ R850/h):</span> <span>R {systemLabor.toLocaleString()}</span></div>
               <div className="flex justify-between font-bold text-lg mt-2 text-zinc-900 dark:text-zinc-50 pt-2 border-t border-zinc-200 dark:border-zinc-800">
-                <span>LMG AI Estimate:</span> <span>R {systemTotal.toLocaleString()}</span>
+                <span>LMG Estimate:</span> <span>R {systemTotal.toLocaleString()}</span>
               </div>
             </div>
           </div>

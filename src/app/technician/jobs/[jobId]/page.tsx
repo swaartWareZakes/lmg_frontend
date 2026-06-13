@@ -298,7 +298,7 @@ export default function GuidedJobCardPage() {
           <Mini title="VIN" value={vehicle.vin || "-"} />
           <Mini title="Plate" value={vehicle.license_plate || "-"} />
           <Mini title="Mileage" value={job.intake_mileage || vehicle.current_mileage || "-"} />
-          <Mini title="AI Estimate" value={latestAi ? currency(latestAi.total_estimate) : "-"} />
+          <Mini title="LMG Estimate" value={latestAi ? currency(latestAi.total_estimate) : "-"} />
           <Mini title="OEM Benchmark" value={latestOem ? currency(latestOem.total_estimate) : "-"} />
         </div>
 
@@ -347,7 +347,7 @@ export default function GuidedJobCardPage() {
               className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-purple-500/40 bg-purple-500/10 px-4 py-3 text-sm font-semibold text-purple-200 hover:bg-purple-500/20"
             >
               <Bot size={16} />
-              Open AI Estimates
+              Open LMG Estimates
               <ExternalLink size={14} />
             </Link>
 
@@ -380,7 +380,7 @@ export default function GuidedJobCardPage() {
           <div className="mt-4 grid gap-3 md:grid-cols-2">
             {photos.length === 0 ? (
               <div className="col-span-full rounded-2xl border border-dashed border-zinc-800 p-10 text-center text-sm text-zinc-500">
-                No photos yet. Upload from AI Estimates page.
+                No photos yet. Upload from LMG Estimates page.
               </div>
             ) : (
               photos.map((photo) => (

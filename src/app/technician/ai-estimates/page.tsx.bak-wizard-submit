@@ -159,7 +159,6 @@ export default function TechnicianAiEstimatesPage() {
   const [selectedLineId, setSelectedLineId] = useState("");
   const [sourcingLineId, setSourcingLineId] = useState<string | null>(null);
   const [quoteActionId, setQuoteActionId] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [photoType, setPhotoType] = useState("damage");
   const [caption, setCaption] = useState("");
@@ -184,15 +183,6 @@ export default function TechnicianAiEstimatesPage() {
   const selectedVehicle = selectedJob?.vehicles;
   const selectedLine =
     lines.find((line) => line.id && line.id === selectedLineId) || lines[0] || null;
-
-  const primaryPhoto = photos[0] || null;
-  const selectedQuotes = partQuotes.filter((quote) => quote.selected_for_estimate);
-  const selectedQuoteLineIds = new Set(selectedQuotes.map((quote) => quote.estimate_line_id).filter(Boolean));
-  const replacementLines = lines.filter((line) =>
-    String(line.action || "").toLowerCase().includes("replace")
-  );
-  const missingQuoteLines = replacementLines.filter((line) => line.id && !selectedQuoteLineIds.has(line.id));
-  const canSubmitForApproval = Boolean(latest?.id && lines.length > 0 && missingQuoteLines.length === 0);
 
   useEffect(() => {
     if (!lines.length) {
@@ -403,38 +393,10 @@ export default function TechnicianAiEstimatesPage() {
     try {
       await api.post(`/technicians/parts/quotes/${quote.id}/select`, {});
       await loadJobData(jobId);
-      setActiveTab("approval");
     } catch (err: any) {
       alert(err?.message || "Could not select supplier quote.");
     } finally {
       setQuoteActionId(null);
-    }
-  };
-
-  const submitForApproval = async () => {
-    if (!latest?.id || !jobId) return;
-
-    if (!canSubmitForApproval) {
-      alert("Select supplier quotes for all replacement lines before submitting.");
-      setActiveTab("sourcing");
-      return;
-    }
-
-    setSubmitting(true);
-
-    try {
-      await api.post(`/technicians/estimates/${latest.id}/submit`, {
-        submitted_comment: `Submitted from LMG Estimate wizard with ${selectedQuotes.length} selected supplier quote(s).`,
-      });
-
-      await loadJobData(jobId);
-      await loadJobs();
-      setActiveTab("approval");
-      alert("Submitted to admin for approval.");
-    } catch (err: any) {
-      alert(err?.message || "Could not submit estimate for approval.");
-    } finally {
-      setSubmitting(false);
     }
   };
 
@@ -528,45 +490,8 @@ export default function TechnicianAiEstimatesPage() {
           <WorkspaceTabButton active={activeTab === "approval"} onClick={() => setActiveTab("approval")} icon={<PackageCheck size={15} />} label="Approval Review" />
         </div>
 
-        <div className="grid gap-4 rounded-[1.5rem] border border-white/10 bg-[#10131b]/85 p-4 lg:grid-cols-[240px_minmax(0,1fr)_260px]">
-          <div className="overflow-hidden rounded-xl border border-white/10 bg-black">
-            {primaryPhoto ? (
-              <img src={primaryPhoto.image_url} alt="" className="h-36 w-full object-cover" />
-            ) : (
-              <div className="flex h-36 items-center justify-center text-xs font-bold text-zinc-600">
-                No evidence image
-              </div>
-            )}
-          </div>
-
-          <div className="flex flex-col justify-center">
-            <p className="text-xs font-black uppercase tracking-[0.22em] text-emerald-400">
-              Current wizard step
-            </p>
-            <h2 className="mt-2 text-2xl font-black text-white">
-              {activeTab === "evidence"
-                ? "Evidence review"
-                : activeTab === "estimate"
-                  ? "Repair estimate"
-                  : activeTab === "sourcing"
-                    ? "Supplier sourcing"
-                    : "Approval review"}
-            </h2>
-            <p className="mt-2 text-sm leading-6 text-zinc-400">
-              {selectedJob?.title || "Select a job"} · {selectedVehicle?.year || "-"} {selectedVehicle?.make || "-"} {selectedVehicle?.model || ""}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 gap-2">
-            <TinyStat title="Lines" value={lines.length} />
-            <TinyStat title="Selected quotes" value={selectedQuotes.length} />
-            <TinyStat title="Missing quotes" value={missingQuoteLines.length} />
-            <TinyStat title="Total" value={currency(latest?.total_estimate)} />
-          </div>
-        </div>
-
         <div className="grid gap-6 xl:grid-cols-[420px_minmax(0,1fr)]">
-          <aside className={activeTab === "evidence" ? "space-y-6" : "hidden xl:block xl:space-y-6"}>
+          <aside className="space-y-6">
             <Panel>
               <PanelTitle icon={<FileSearch size={18} />} title="Selected job card" />
 
@@ -721,7 +646,6 @@ export default function TechnicianAiEstimatesPage() {
           </aside>
 
           <main className="min-w-0">
-            {activeTab === "estimate" && (
             <Panel>
               <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                 <div>
@@ -868,7 +792,6 @@ export default function TechnicianAiEstimatesPage() {
                 </div>
               )}
             </Panel>
-            )}
 
             {activeTab === "sourcing" && (
               <Panel>
@@ -895,7 +818,7 @@ export default function TechnicianAiEstimatesPage() {
                 {!latest || lines.length === 0 ? (
                   <EmptyState text="Generate an LMG estimate first, then supplier sourcing will appear here." />
                 ) : (
-                  <div className="mt-5 grid gap-4 xl:grid-cols-[300px_minmax(0,1fr)]">
+                  <div className="mt-6 grid gap-5 xl:grid-cols-[360px_minmax(0,1fr)]">
                     <div className="rounded-2xl border border-white/10 bg-black/40 p-3">
                       <div className="mb-3 flex items-center gap-2 px-2 text-xs font-black uppercase tracking-[0.18em] text-zinc-500">
                         <Boxes size={14} />
@@ -913,12 +836,12 @@ export default function TechnicianAiEstimatesPage() {
                               onClick={() => setSelectedLineId(line.id || "")}
                               className={
                                 selected
-                                  ? "w-full rounded-lg border border-emerald-500/40 bg-emerald-500/10 p-2.5 text-left"
-                                  : "w-full rounded-lg border border-white/10 bg-black p-2.5 text-left hover:border-emerald-500/30"
+                                  ? "w-full rounded-xl border border-emerald-500/40 bg-emerald-500/10 p-3 text-left"
+                                  : "w-full rounded-xl border border-white/10 bg-black p-3 text-left hover:border-emerald-500/30"
                               }
                             >
-                              <p className="line-clamp-1 text-xs font-black text-white">{line.component_name}</p>
-                              <div className="mt-1.5 flex items-center justify-between text-[10px] text-zinc-500">
+                              <p className="line-clamp-2 text-sm font-black text-white">{line.component_name}</p>
+                              <div className="mt-2 flex items-center justify-between text-xs text-zinc-500">
                                 <span>{line.action || "Action pending"}</span>
                                 <span>{count} supplier option(s)</span>
                               </div>
@@ -930,7 +853,7 @@ export default function TechnicianAiEstimatesPage() {
 
                     <div className="min-w-0">
                       {selectedLine ? (
-                        <div className="rounded-2xl border border-white/10 bg-black/40 p-3">
+                        <div className="rounded-2xl border border-white/10 bg-black/40 p-4">
                           <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
                             <div>
                               <p className="text-xs font-black uppercase tracking-[0.18em] text-emerald-300">Selected component</p>
@@ -954,7 +877,7 @@ export default function TechnicianAiEstimatesPage() {
                             {quotesForLine(selectedLine, 0).length === 0 ? (
                               <EmptyState text="No supplier options saved for this line yet. Click Find live suppliers to pull supplier candidates with prices, images and source links." />
                             ) : (
-                              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+                              <div className="grid gap-4 md:grid-cols-2 2xl:grid-cols-3">
                                 {quotesForLine(selectedLine, 0).map((quote) => (
                                   <QuoteCard
                                     key={quote.id}
@@ -993,90 +916,15 @@ export default function TechnicianAiEstimatesPage() {
 
             {activeTab === "approval" && (
               <Panel>
-                <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-                  <div>
-                    <PanelTitle icon={<PackageCheck size={18} />} title="Approval review" />
-                    <p className="mt-2 max-w-3xl text-sm leading-6 text-zinc-400">
-                      Final check before admin review. This submission includes the estimate total, evidence, repair lines and selected supplier source prices.
-                    </p>
-                  </div>
-
-                  <button
-                    onClick={submitForApproval}
-                    disabled={!canSubmitForApproval || submitting}
-                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-500 px-5 py-3 text-sm font-black text-black hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-50"
-                  >
-                    {submitting ? <Loader2 className="animate-spin" size={16} /> : <Send size={16} />}
-                    {submitting ? "Submitting..." : "Submit to admin"}
-                  </button>
-                </div>
-
-                <div className="mt-6 grid gap-3 md:grid-cols-4">
+                <PanelTitle icon={<PackageCheck size={18} />} title="Approval review" />
+                <p className="mt-2 text-sm leading-6 text-zinc-400">
+                  Before approval, confirm evidence is complete, repair lines are reviewed, and replacement parts have selected supplier quotes.
+                </p>
+                <div className="mt-5 grid gap-3 md:grid-cols-4">
                   <TinyStat title="Estimate status" value={latest?.status || "No estimate"} />
                   <TinyStat title="Repair lines" value={lines.length} />
-                  <TinyStat title="Selected quotes" value={selectedQuotes.length} />
-                  <TinyStat title="Missing quotes" value={missingQuoteLines.length} />
-                </div>
-
-                <div className="mt-6 grid gap-5 xl:grid-cols-[320px_minmax(0,1fr)]">
-                  <div className="rounded-2xl border border-white/10 bg-black/40 p-4">
-                    <p className="text-xs font-black uppercase tracking-[0.18em] text-emerald-300">
-                      Evidence image
-                    </p>
-                    <div className="mt-3 overflow-hidden rounded-xl border border-white/10 bg-black">
-                      {primaryPhoto ? (
-                        <img src={primaryPhoto.image_url} alt="" className="h-52 w-full object-cover" />
-                      ) : (
-                        <div className="flex h-52 items-center justify-center text-sm text-zinc-600">No evidence image</div>
-                      )}
-                    </div>
-                    <p className="mt-3 text-xs leading-5 text-zinc-500">
-                      {primaryPhoto?.caption || "Evidence caption not captured."}
-                    </p>
-                  </div>
-
-                  <div className="rounded-2xl border border-white/10 bg-black/40 p-4">
-                    <p className="text-xs font-black uppercase tracking-[0.18em] text-emerald-300">
-                      Selected supplier prices sent to admin
-                    </p>
-
-                    {selectedQuotes.length === 0 ? (
-                      <EmptyState text="No supplier quote selected yet. Go to Supplier Sourcing and click Use this quote." />
-                    ) : (
-                      <div className="mt-4 space-y-3">
-                        {selectedQuotes.map((quote) => (
-                          <div key={quote.id} className="flex flex-col gap-3 rounded-xl border border-white/10 bg-black p-3 md:flex-row md:items-center md:justify-between">
-                            <div>
-                              <p className="font-black text-white">{quote.component_name}</p>
-                              <p className="mt-1 text-xs text-zinc-500">
-                                {quote.supplier_name} · {quote.product_title || quote.quote_reference || "Supplier source"}
-                              </p>
-                              {quote.source_url ? (
-                                <a href={quote.source_url} target="_blank" rel="noreferrer" className="mt-2 inline-flex text-xs font-bold text-emerald-300">
-                                  Open source
-                                </a>
-                              ) : null}
-                            </div>
-                            <div className="text-left md:text-right">
-                              <p className="text-lg font-black text-white">{currency(quote.price)}</p>
-                              <p className="text-xs text-zinc-500">{quote.source_provider || quote.supplier_type || "supplier"}</p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
-                    {missingQuoteLines.length > 0 && (
-                      <div className="mt-5 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm text-amber-200">
-                        Select supplier quotes for these replacement lines before submitting:
-                        <ul className="mt-2 list-disc pl-5">
-                          {missingQuoteLines.map((line) => (
-                            <li key={line.id || line.component_name}>{line.component_name}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
+                  <TinyStat title="Supplier options" value={partQuotes.length} />
+                  <TinyStat title="Selected quotes" value={partQuotes.filter((q) => q.selected_for_estimate).length} />
                 </div>
               </Panel>
             )}
@@ -1222,8 +1070,8 @@ function QuoteCard({
   const imageUrl = quote.product_image_url || quote.image_url;
 
   return (
-    <div className="overflow-hidden rounded-xl border border-white/10 bg-black">
-      <div className="relative h-24 border-b border-white/10 bg-zinc-950">
+    <div className="overflow-hidden rounded-2xl border border-white/10 bg-black">
+      <div className="relative h-40 border-b border-white/10 bg-zinc-950">
         {imageUrl ? (
           <img src={imageUrl} alt={quote.product_title || quote.component_name} className="h-full w-full object-cover" />
         ) : (
@@ -1234,44 +1082,47 @@ function QuoteCard({
 
         <div className="absolute left-3 top-3 flex flex-wrap gap-2">
           {quote.selected_for_estimate ? (
-            <span className="rounded-full bg-emerald-500 px-1.5 py-0.5 text-[9px] font-black text-black">Selected</span>
+            <span className="rounded-full bg-emerald-500 px-2 py-1 text-[10px] font-black text-black">Selected</span>
           ) : quote.is_recommended ? (
-            <span className="rounded-full bg-emerald-500/90 px-1.5 py-0.5 text-[9px] font-black text-black">Recommended</span>
+            <span className="rounded-full bg-emerald-500/90 px-2 py-1 text-[10px] font-black text-black">Recommended</span>
           ) : null}
 
           {quote.is_saved ? (
-            <span className="rounded-full bg-cyan-500/90 px-1.5 py-0.5 text-[9px] font-black text-black">Saved</span>
+            <span className="rounded-full bg-cyan-500/90 px-2 py-1 text-[10px] font-black text-black">Supplier saved</span>
           ) : null}
         </div>
       </div>
 
-      <div className="p-3">
+      <div className="p-4">
         <div className="min-w-0">
-          <p className="truncate text-sm font-black text-white">{quote.supplier_name}</p>
-          <p className="mt-1 line-clamp-2 text-[10px] leading-4 text-zinc-500">
+          <p className="truncate font-black text-white">{quote.supplier_name}</p>
+          <p className="mt-1 line-clamp-2 text-xs leading-5 text-zinc-500">
             {quote.product_title || quote.quote_reference || quote.component_name}
           </p>
         </div>
 
-        <p className="mt-3 text-xl font-black text-white">{currency(quote.price)}</p>
+        <p className="mt-4 text-2xl font-black text-white">{currency(quote.price)}</p>
 
-        <div className="mt-2 space-y-0.5 text-[10px] leading-4 text-zinc-500">
+        <div className="mt-3 space-y-1 text-xs text-zinc-500">
           <p>{quote.availability || "Availability unknown"}</p>
           <p>{quote.supplier_type || "supplier"} · {quote.part_condition || "condition unknown"}</p>
+          {quote.lead_time_days ? <p>Lead time: {quote.lead_time_days} day(s)</p> : null}
+          {quote.part_number ? <p>Part no: {quote.part_number}</p> : null}
           {quote.source_provider ? <p>Source: {quote.source_provider}</p> : null}
           {confidence ? <p>Confidence: {confidence}</p> : null}
+          {quote.warranty_notes ? <p>{quote.warranty_notes}</p> : null}
         </div>
 
         {(onSave || onSelect || quote.source_url) && (
-          <div className="mt-3 grid grid-cols-2 gap-1.5">
+          <div className="mt-4 flex flex-wrap gap-2">
             {onSave ? (
               <button
                 type="button"
                 onClick={onSave}
                 disabled={busy || quote.is_saved}
-                className="inline-flex items-center justify-center gap-1.5 rounded-md border border-white/10 bg-white/[0.03] px-2 py-1.5 text-[10px] font-black text-zinc-300 hover:border-cyan-500/40 hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+                className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-xs font-black text-zinc-300 hover:border-cyan-500/40 hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
               >
-                {busy ? <Loader2 className="animate-spin" size={13} /> : <Save size={12} />}
+                {busy ? <Loader2 className="animate-spin" size={13} /> : <Save size={13} />}
                 {quote.is_saved ? "Saved" : "Save supplier"}
               </button>
             ) : null}
@@ -1281,9 +1132,9 @@ function QuoteCard({
                 type="button"
                 onClick={onSelect}
                 disabled={busy || quote.selected_for_estimate}
-                className="inline-flex items-center justify-center gap-1.5 rounded-md bg-emerald-500 px-2 py-1.5 text-[10px] font-black text-black hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-50"
+                className="inline-flex items-center gap-2 rounded-lg bg-emerald-500 px-3 py-2 text-xs font-black text-black hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-50"
               >
-                {busy ? <Loader2 className="animate-spin" size={13} /> : <PackageCheck size={12} />}
+                {busy ? <Loader2 className="animate-spin" size={13} /> : <PackageCheck size={13} />}
                 {quote.selected_for_estimate ? "Using quote" : "Use this quote"}
               </button>
             ) : null}
@@ -1293,9 +1144,9 @@ function QuoteCard({
                 href={quote.source_url}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center justify-center gap-1.5 rounded-md border border-white/10 bg-white/[0.03] px-2 py-1.5 text-[10px] font-black text-emerald-300 hover:text-emerald-200"
+                className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-xs font-black text-emerald-300 hover:text-emerald-200"
               >
-                <ExternalLink size={12} />
+                <ExternalLink size={13} />
                 Source
               </a>
             ) : null}

@@ -276,7 +276,7 @@ export default function TechnicianHomePage() {
               Today’s Repair Desk
             </h1>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-zinc-400 sm:text-base">
-              A technical cockpit for assigned jobs, AI estimates, OEM/market benchmarks,
+              A technical cockpit for assigned jobs, LMG estimates, OEM/market benchmarks,
               diagnostics, repair guidance, stock awareness and repair progress.
             </p>
 
@@ -291,7 +291,7 @@ export default function TechnicianHomePage() {
                 href="/technician/ai-estimates"
                 className="inline-flex items-center gap-2 rounded-xl border border-purple-500/40 bg-purple-500/10 px-4 py-2 text-sm font-bold text-purple-200 hover:bg-purple-500/20"
               >
-                <Bot size={16} /> Generate AI Estimate
+                <Bot size={16} /> Generate LMG Estimate
               </Link>
               <Link
                 href="/technician/oem-estimates"
@@ -404,7 +404,7 @@ export default function TechnicianHomePage() {
               <ActionCard
                 href="/technician/ai-estimates"
                 title="Photo to estimate"
-                description="Upload damage evidence and generate a LMG AI estimate."
+                description="Upload damage evidence and generate a LMG LMG estimate."
                 icon={<Bot size={18} />}
                 tone="purple"
               />
@@ -503,7 +503,7 @@ export default function TechnicianHomePage() {
                 <h3 className="font-bold text-white">Variance awareness</h3>
               </div>
               <p className="text-sm leading-6 text-zinc-400">
-                AI estimate, external benchmark and actual repair cost can be compared to expose overrun,
+                LMG estimate, external benchmark and actual repair cost can be compared to expose overrun,
                 saving or pricing anomalies.
               </p>
             </div>

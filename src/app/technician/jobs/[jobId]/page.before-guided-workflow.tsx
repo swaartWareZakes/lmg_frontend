@@ -226,12 +226,12 @@ export default function TechnicianJobCardPage() {
       await api.post(`/technicians/jobs/${jobId}/ai-estimate`, {
         photo_ids: photos.map((p) => p.id),
         labor_rate: 450,
-        technician_notes: "Generate AI estimate from uploaded damage photos.",
+        technician_notes: "Generate LMG estimate from uploaded damage photos.",
       });
 
       await fetchAll();
     } catch (err: any) {
-      alert(err?.message || "AI estimate failed.");
+      alert(err?.message || "LMG estimate failed.");
     } finally {
       setGeneratingAI(false);
     }
@@ -474,7 +474,7 @@ export default function TechnicianJobCardPage() {
                 ) : (
                   <Sparkles size={16} />
                 )}
-                Generate AI Estimate
+                Generate LMG Estimate
               </button>
 
               {latestEstimate && (
@@ -492,9 +492,9 @@ export default function TechnicianJobCardPage() {
           {!latestEstimate ? (
             <div className="mt-6 rounded-xl border border-dashed border-zinc-700 p-10 text-center">
               <Bot className="mx-auto text-zinc-600" size={36} />
-              <p className="mt-3 font-medium text-white">No AI estimate yet</p>
+              <p className="mt-3 font-medium text-white">No LMG estimate yet</p>
               <p className="mt-1 text-sm text-zinc-500">
-                Upload the Ranger damage photos, then click Generate AI Estimate.
+                Upload the Ranger damage photos, then click Generate LMG Estimate.
               </p>
             </div>
           ) : (

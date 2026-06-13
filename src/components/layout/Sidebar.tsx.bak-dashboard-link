@@ -252,7 +252,7 @@ export default function Sidebar({ collapsed = false, onToggle }: SidebarProps) {
       return [
         {
           name: "Driver Portal",
-          href: "/dashboard/fleet",
+          href: "/dashboard",
           icon: Truck,
         },
         {

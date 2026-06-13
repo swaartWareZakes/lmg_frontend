@@ -169,7 +169,7 @@ export default function DamageIntakeForm({ jobId, readOnly = false, onSaved }: P
           <p className="text-xs font-black uppercase tracking-[0.2em] text-brand-primary">LMG Evidence Intake</p>
           <h2 className="mt-1 text-xl font-black text-zinc-950 dark:text-white">Damage Intake</h2>
           <p className="mt-1 text-sm text-zinc-500">
-            Capture technician observations before AI estimate generation.
+            Capture technician observations before LMG estimate generation.
           </p>
         </div>
 

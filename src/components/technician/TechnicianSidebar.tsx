@@ -27,7 +27,7 @@ const primaryLinks = [
 const toolLinks = [
   { name: "Quick VIN Lookup", href: "/technician/vin", icon: Search },
   { name: "Evidence Intake", href: "/technician/evidence", icon: ClipboardCheck },
-  { name: "AI Estimates", href: "/technician/ai-estimates", icon: Calculator },
+  { name: "LMG Estimates", href: "/technician/ai-estimates", icon: Calculator },
   { name: "OEM Benchmark", href: "/technician/oem-estimates", icon: Calculator },
   { name: "Repair Guidance", href: "/technician/guidance", icon: BookOpen },
   { name: "Diagnostics Assist", href: "/technician/diagnostics", icon: Stethoscope },

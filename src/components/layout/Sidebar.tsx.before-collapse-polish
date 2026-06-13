@@ -252,7 +252,7 @@ export default function Sidebar({ collapsed = false, onToggle }: SidebarProps) {
       return [
         {
           name: "Driver Portal",
-          href: "/dashboard/fleet",
+          href: "/dashboard",
           icon: Truck,
         },
         {
@@ -436,7 +436,7 @@ export default function Sidebar({ collapsed = false, onToggle }: SidebarProps) {
             size={18}
             className={isActive ? "text-brand-primary" : "opacity-70"}
           />
-          {!collapsed && <span className="truncate">{item.name}</span>}
+          {!collapsed && item.name}
         </Link>
       );
     });
@@ -446,7 +446,7 @@ export default function Sidebar({ collapsed = false, onToggle }: SidebarProps) {
   return (
     <aside
       className={clsx(
-        "fixed inset-y-0 left-0 border-r border-zinc-200 dark:border-zinc-800 bg-white dark:bg-sidebar-dark hidden md:flex flex-col z-40 transition-[width] duration-300 ease-out overflow-visible",
+        "fixed inset-y-0 left-0 border-r border-zinc-200 dark:border-zinc-800 bg-white dark:bg-sidebar-dark hidden md:flex flex-col z-20 transition-all duration-300 overflow-hidden",
         collapsed ? "w-20" : "w-64"
       )}
     >
@@ -454,10 +454,7 @@ export default function Sidebar({ collapsed = false, onToggle }: SidebarProps) {
         <button
           type="button"
           onClick={onToggle}
-          className={clsx(
-            "absolute right-[-18px] top-[76px] z-[90] hidden h-9 w-9 items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-700 shadow-xl ring-4 ring-zinc-50 transition-all duration-200 hover:scale-105 hover:bg-zinc-100 hover:text-zinc-950 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:ring-[#0f1115] dark:hover:bg-zinc-800 md:flex",
-            collapsed && "right-[-16px]"
-          )}
+          className="absolute -right-3 top-5 z-50 flex h-7 w-7 items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-600 shadow-lg transition hover:bg-zinc-100 hover:text-zinc-950 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
           title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
           {collapsed ? <PanelLeftOpen size={15} /> : <PanelLeftClose size={15} />}
@@ -465,7 +462,7 @@ export default function Sidebar({ collapsed = false, onToggle }: SidebarProps) {
       )}
       <div
         className={clsx(
-          "flex h-16 items-center border-b border-zinc-200 transition-all duration-300 ease-out dark:border-zinc-800",
+          "flex h-16 items-center border-b border-zinc-200 transition-all duration-300 dark:border-zinc-800",
           collapsed ? "justify-center px-3" : "px-6"
         )}
       >

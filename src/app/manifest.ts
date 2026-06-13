@@ -4,7 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "LMG Technician",
     short_name: "LMG",
-    description: "Technician-first fleet repair, AI estimate and job workflow system.",
+    description: "Technician-first fleet repair, LMG estimate and job workflow system.",
     start_url: "/technician",
     scope: "/",
     display: "standalone",

@@ -383,7 +383,7 @@ export default function TechnicianOemEstimatesPage() {
             <p className="text-sm font-semibold text-emerald-400">Estimates</p>
             <h1 className="mt-1 text-3xl font-bold text-white">OEM Benchmark Estimate</h1>
             <p className="mt-2 max-w-3xl text-sm text-zinc-400">
-              Compare the LMG AI estimate against Vehicle Databases repair-pricing benchmark data.
+              Compare the LMG LMG estimate against Vehicle Databases repair-pricing benchmark data.
               Once admin approves one estimate source, the alternative source becomes read-only.
             </p>
           </div>
@@ -476,7 +476,7 @@ export default function TechnicianOemEstimatesPage() {
             <div className="mb-4 flex items-center justify-between">
               <div>
                 <p className="text-sm font-semibold text-emerald-400">Internal</p>
-                <h2 className="text-xl font-bold text-white">LMG AI Estimate</h2>
+                <h2 className="text-xl font-bold text-white">LMG Estimate</h2>
               </div>
               {latestAi && (
                 <span className={`rounded-full border px-3 py-1 text-xs font-semibold ${statusClass(latestAi.status)}`}>
@@ -528,7 +528,7 @@ export default function TechnicianOemEstimatesPage() {
           </div>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-            <Card title="AI Estimate" value={currency(latestAi?.total_estimate)} icon={<Bot size={16} />} />
+            <Card title="LMG Estimate" value={currency(latestAi?.total_estimate)} icon={<Bot size={16} />} />
             <Card title="OEM Benchmark" value={currency(latestOem?.total_estimate)} icon={<Database size={16} />} />
             <Card
               title="Variance"

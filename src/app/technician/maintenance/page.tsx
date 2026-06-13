@@ -117,7 +117,7 @@ export default function TechnicianMaintenancePage() {
         <section className="rounded-3xl border border-zinc-800 bg-zinc-900/70 p-6">
           <h2 className="font-semibold text-white">Job-linked Maintenance Update</h2>
           <p className="mt-1 text-sm text-zinc-500">
-            Use this for operational updates. Do not duplicate AI estimate or approval steps here.
+            Use this for operational updates. Do not duplicate LMG estimate or approval steps here.
           </p>
 
           <div className="mt-5 grid gap-4 md:grid-cols-2">

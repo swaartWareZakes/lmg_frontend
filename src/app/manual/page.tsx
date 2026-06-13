@@ -28,7 +28,7 @@ const sections = [
       "Log in with the role assigned to your account.",
       "Fleet/admin users land on the dashboard.",
       "Technician users are routed to the technician workspace.",
-      "Use the sidebar to move between Assigned Jobs, AI Estimates, OEM Benchmark, Repair Guidance, Diagnostics and Service Schedules.",
+      "Use the sidebar to move between Assigned Jobs, LMG Estimates, OEM Benchmark, Repair Guidance, Diagnostics and Service Schedules.",
     ],
   },
   {
@@ -36,7 +36,7 @@ const sections = [
     items: [
       "Create or open a technician job card.",
       "Capture inspection findings and photos from the relevant estimate page.",
-      "Generate the LMG AI estimate from job evidence.",
+      "Generate the LMG LMG estimate from job evidence.",
       "Optionally request a Vehicle Databases market repair benchmark.",
       "Return to the job card, select the estimate to submit, and send it for approval.",
       "After approval, unlock actual repair costs and variance tracking.",
@@ -133,7 +133,7 @@ export default function ManualPage() {
               User Manual
             </p>
             <h1 className="max-w-4xl text-4xl font-black tracking-tight text-zinc-950 dark:text-white sm:text-5xl">
-              LMG Fleet, Technician and AI Estimate Manual
+              LMG Fleet, Technician and LMG Estimate Manual
             </h1>
             <p className="mt-5 max-w-3xl text-base leading-7 text-zinc-600 dark:text-zinc-300 sm:text-lg">
               This guide explains how to use LMG across fleet operations, technician job cards,
@@ -190,7 +190,7 @@ export default function ManualPage() {
                   <td className="px-5 py-4 font-bold text-cyan-500">Technician</td>
                   <td className="px-5 py-4">Technician Workspace</td>
                   <td className="px-5 py-4 text-zinc-600 dark:text-zinc-300">
-                    Assigned jobs, job photos, AI estimates, OEM/market benchmarks, notes, diagnostics, guidance and actual costs.
+                    Assigned jobs, job photos, LMG estimates, OEM/market benchmarks, notes, diagnostics, guidance and actual costs.
                   </td>
                 </tr>
                 <tr>
@@ -218,12 +218,12 @@ export default function ManualPage() {
             <Step
               number="2"
               title="Capture evidence"
-              description="Use the AI Estimates page to upload damage photos. Photos become evidence for the selected job and are visible back on the job card."
+              description="Use the LMG Estimates page to upload damage photos. Photos become evidence for the selected job and are visible back on the job card."
             />
             <Step
               number="3"
-              title="Generate the LMG AI estimate"
-              description="The AI estimate uses the job details and uploaded photos to draft repair lines, labour, parts, paint and total estimate values."
+              title="Generate the LMG LMG estimate"
+              description="The LMG estimate uses the job details and uploaded photos to draft repair lines, labour, parts, paint and total estimate values."
             />
             <Step
               number="4"
@@ -248,26 +248,26 @@ export default function ManualPage() {
             <Sparkles className="text-purple-500" /> Estimates
           </h2>
           <div className="grid gap-5 lg:grid-cols-2">
-            <Card icon={<Sparkles size={22} />} title="AI Estimates">
+            <Card icon={<Sparkles size={22} />} title="LMG Estimates">
               <p>
-                The AI Estimates page is where technicians upload evidence and generate the internal LMG estimate.
+                The LMG Estimates page is where technicians upload evidence and generate the internal LMG estimate.
                 It should be used for photo-based collision, body, bumper, headlamp, grille, fender and paint assessments.
               </p>
               <ul className="mt-3 space-y-1">
                 <li>• Select the open job card.</li>
                 <li>• Upload one or more damage photos.</li>
-                <li>• Generate or refresh the AI estimate.</li>
+                <li>• Generate or refresh the LMG estimate.</li>
                 <li>• Review the line items before submitting from the job card.</li>
               </ul>
             </Card>
 
             <Card icon={<Database size={22} />} title="OEM / Market Benchmark">
               <p>
-                The OEM Benchmark page compares the LMG AI estimate against Vehicle Databases repair benchmark data.
+                The OEM Benchmark page compares the LMG LMG estimate against Vehicle Databases repair benchmark data.
                 It keeps AI and external benchmark estimates separate so one does not overwrite the other.
               </p>
               <ul className="mt-3 space-y-1">
-                <li>• Left panel: internal LMG AI estimate.</li>
+                <li>• Left panel: internal LMG LMG estimate.</li>
                 <li>• Right panel: external Vehicle Databases benchmark.</li>
                 <li>• Bottom panel: variance between AI and benchmark.</li>
                 <li>• If provider data is general service data, validate relevance before approval.</li>
@@ -377,8 +377,8 @@ export default function ManualPage() {
             <ul className="space-y-2 text-sm leading-6 text-zinc-600 dark:text-zinc-300">
               <li>• Open Assigned Jobs.</li>
               <li>• Choose the active job card.</li>
-              <li>• Upload evidence from AI Estimates.</li>
-              <li>• Generate the LMG AI estimate.</li>
+              <li>• Upload evidence from LMG Estimates.</li>
+              <li>• Generate the LMG LMG estimate.</li>
               <li>• Compare against Vehicle Databases where useful.</li>
             </ul>
             <ul className="space-y-2 text-sm leading-6 text-zinc-600 dark:text-zinc-300">

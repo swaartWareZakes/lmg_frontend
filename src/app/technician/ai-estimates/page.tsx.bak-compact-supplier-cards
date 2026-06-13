@@ -529,7 +529,7 @@ export default function TechnicianAiEstimatesPage() {
         </div>
 
         <div className="grid gap-4 rounded-[1.5rem] border border-white/10 bg-[#10131b]/85 p-4 lg:grid-cols-[240px_minmax(0,1fr)_260px]">
-          <div className="overflow-hidden rounded-xl border border-white/10 bg-black">
+          <div className="overflow-hidden rounded-2xl border border-white/10 bg-black">
             {primaryPhoto ? (
               <img src={primaryPhoto.image_url} alt="" className="h-36 w-full object-cover" />
             ) : (
@@ -895,7 +895,7 @@ export default function TechnicianAiEstimatesPage() {
                 {!latest || lines.length === 0 ? (
                   <EmptyState text="Generate an LMG estimate first, then supplier sourcing will appear here." />
                 ) : (
-                  <div className="mt-5 grid gap-4 xl:grid-cols-[300px_minmax(0,1fr)]">
+                  <div className="mt-6 grid gap-5 xl:grid-cols-[360px_minmax(0,1fr)]">
                     <div className="rounded-2xl border border-white/10 bg-black/40 p-3">
                       <div className="mb-3 flex items-center gap-2 px-2 text-xs font-black uppercase tracking-[0.18em] text-zinc-500">
                         <Boxes size={14} />
@@ -913,12 +913,12 @@ export default function TechnicianAiEstimatesPage() {
                               onClick={() => setSelectedLineId(line.id || "")}
                               className={
                                 selected
-                                  ? "w-full rounded-lg border border-emerald-500/40 bg-emerald-500/10 p-2.5 text-left"
-                                  : "w-full rounded-lg border border-white/10 bg-black p-2.5 text-left hover:border-emerald-500/30"
+                                  ? "w-full rounded-xl border border-emerald-500/40 bg-emerald-500/10 p-3 text-left"
+                                  : "w-full rounded-xl border border-white/10 bg-black p-3 text-left hover:border-emerald-500/30"
                               }
                             >
-                              <p className="line-clamp-1 text-xs font-black text-white">{line.component_name}</p>
-                              <div className="mt-1.5 flex items-center justify-between text-[10px] text-zinc-500">
+                              <p className="line-clamp-2 text-sm font-black text-white">{line.component_name}</p>
+                              <div className="mt-2 flex items-center justify-between text-xs text-zinc-500">
                                 <span>{line.action || "Action pending"}</span>
                                 <span>{count} supplier option(s)</span>
                               </div>
@@ -930,7 +930,7 @@ export default function TechnicianAiEstimatesPage() {
 
                     <div className="min-w-0">
                       {selectedLine ? (
-                        <div className="rounded-2xl border border-white/10 bg-black/40 p-3">
+                        <div className="rounded-2xl border border-white/10 bg-black/40 p-4">
                           <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
                             <div>
                               <p className="text-xs font-black uppercase tracking-[0.18em] text-emerald-300">Selected component</p>
@@ -954,7 +954,7 @@ export default function TechnicianAiEstimatesPage() {
                             {quotesForLine(selectedLine, 0).length === 0 ? (
                               <EmptyState text="No supplier options saved for this line yet. Click Find live suppliers to pull supplier candidates with prices, images and source links." />
                             ) : (
-                              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+                              <div className="grid gap-4 md:grid-cols-2 2xl:grid-cols-3">
                                 {quotesForLine(selectedLine, 0).map((quote) => (
                                   <QuoteCard
                                     key={quote.id}
@@ -1222,8 +1222,8 @@ function QuoteCard({
   const imageUrl = quote.product_image_url || quote.image_url;
 
   return (
-    <div className="overflow-hidden rounded-xl border border-white/10 bg-black">
-      <div className="relative h-24 border-b border-white/10 bg-zinc-950">
+    <div className="overflow-hidden rounded-2xl border border-white/10 bg-black">
+      <div className="relative h-40 border-b border-white/10 bg-zinc-950">
         {imageUrl ? (
           <img src={imageUrl} alt={quote.product_title || quote.component_name} className="h-full w-full object-cover" />
         ) : (
@@ -1234,44 +1234,47 @@ function QuoteCard({
 
         <div className="absolute left-3 top-3 flex flex-wrap gap-2">
           {quote.selected_for_estimate ? (
-            <span className="rounded-full bg-emerald-500 px-1.5 py-0.5 text-[9px] font-black text-black">Selected</span>
+            <span className="rounded-full bg-emerald-500 px-2 py-1 text-[10px] font-black text-black">Selected</span>
           ) : quote.is_recommended ? (
-            <span className="rounded-full bg-emerald-500/90 px-1.5 py-0.5 text-[9px] font-black text-black">Recommended</span>
+            <span className="rounded-full bg-emerald-500/90 px-2 py-1 text-[10px] font-black text-black">Recommended</span>
           ) : null}
 
           {quote.is_saved ? (
-            <span className="rounded-full bg-cyan-500/90 px-1.5 py-0.5 text-[9px] font-black text-black">Saved</span>
+            <span className="rounded-full bg-cyan-500/90 px-2 py-1 text-[10px] font-black text-black">Supplier saved</span>
           ) : null}
         </div>
       </div>
 
-      <div className="p-3">
+      <div className="p-4">
         <div className="min-w-0">
-          <p className="truncate text-sm font-black text-white">{quote.supplier_name}</p>
-          <p className="mt-1 line-clamp-2 text-[10px] leading-4 text-zinc-500">
+          <p className="truncate font-black text-white">{quote.supplier_name}</p>
+          <p className="mt-1 line-clamp-2 text-xs leading-5 text-zinc-500">
             {quote.product_title || quote.quote_reference || quote.component_name}
           </p>
         </div>
 
-        <p className="mt-3 text-xl font-black text-white">{currency(quote.price)}</p>
+        <p className="mt-4 text-2xl font-black text-white">{currency(quote.price)}</p>
 
-        <div className="mt-2 space-y-0.5 text-[10px] leading-4 text-zinc-500">
+        <div className="mt-3 space-y-1 text-xs text-zinc-500">
           <p>{quote.availability || "Availability unknown"}</p>
           <p>{quote.supplier_type || "supplier"} · {quote.part_condition || "condition unknown"}</p>
+          {quote.lead_time_days ? <p>Lead time: {quote.lead_time_days} day(s)</p> : null}
+          {quote.part_number ? <p>Part no: {quote.part_number}</p> : null}
           {quote.source_provider ? <p>Source: {quote.source_provider}</p> : null}
           {confidence ? <p>Confidence: {confidence}</p> : null}
+          {quote.warranty_notes ? <p>{quote.warranty_notes}</p> : null}
         </div>
 
         {(onSave || onSelect || quote.source_url) && (
-          <div className="mt-3 grid grid-cols-2 gap-1.5">
+          <div className="mt-4 flex flex-wrap gap-2">
             {onSave ? (
               <button
                 type="button"
                 onClick={onSave}
                 disabled={busy || quote.is_saved}
-                className="inline-flex items-center justify-center gap-1.5 rounded-md border border-white/10 bg-white/[0.03] px-2 py-1.5 text-[10px] font-black text-zinc-300 hover:border-cyan-500/40 hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+                className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-xs font-black text-zinc-300 hover:border-cyan-500/40 hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
               >
-                {busy ? <Loader2 className="animate-spin" size={13} /> : <Save size={12} />}
+                {busy ? <Loader2 className="animate-spin" size={13} /> : <Save size={13} />}
                 {quote.is_saved ? "Saved" : "Save supplier"}
               </button>
             ) : null}
@@ -1281,9 +1284,9 @@ function QuoteCard({
                 type="button"
                 onClick={onSelect}
                 disabled={busy || quote.selected_for_estimate}
-                className="inline-flex items-center justify-center gap-1.5 rounded-md bg-emerald-500 px-2 py-1.5 text-[10px] font-black text-black hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-50"
+                className="inline-flex items-center gap-2 rounded-lg bg-emerald-500 px-3 py-2 text-xs font-black text-black hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-50"
               >
-                {busy ? <Loader2 className="animate-spin" size={13} /> : <PackageCheck size={12} />}
+                {busy ? <Loader2 className="animate-spin" size={13} /> : <PackageCheck size={13} />}
                 {quote.selected_for_estimate ? "Using quote" : "Use this quote"}
               </button>
             ) : null}
@@ -1293,9 +1296,9 @@ function QuoteCard({
                 href={quote.source_url}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center justify-center gap-1.5 rounded-md border border-white/10 bg-white/[0.03] px-2 py-1.5 text-[10px] font-black text-emerald-300 hover:text-emerald-200"
+                className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-xs font-black text-emerald-300 hover:text-emerald-200"
               >
-                <ExternalLink size={12} />
+                <ExternalLink size={13} />
                 Source
               </a>
             ) : null}
